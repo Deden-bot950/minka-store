@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #5A5A40; /* Muted Olive */
+  --color-primary-dark: #444430;
+  --color-accent: #D4A373; /* Sandy Tan */
+  --color-brand-bg: #F5F5F0; /* Warm off-white */
+  
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+body {
+  @apply bg-brand-bg text-neutral-900 antialiased font-sans;
+}
+
+h1, h2, h3, .serif {
+  @apply font-serif;
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+.cart-drawer-open {
+  @apply overflow-hidden;
+}

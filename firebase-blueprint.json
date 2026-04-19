@@ -1,0 +1,55 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A product in the online store",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the product" },
+        "description": { "type": "string", "description": "Product details" },
+        "price": { "type": "number", "description": "Price of the product" },
+        "image": { "type": "string", "description": "URL of the product image" },
+        "category": { "type": "string", "description": "Category of the product" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when created" }
+      },
+      "required": ["name", "price", "image"]
+    },
+    "Setting": {
+      "title": "Setting",
+      "description": "Store configuration settings",
+      "type": "object",
+      "properties": {
+        "storeName": { "type": "string" },
+        "whatsappNumber": { "type": "string" },
+        "currencySymbol": { "type": "string" }
+      }
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "items": { "type": "array" },
+        "total": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "completed", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of store products"
+    },
+    "/settings/{settingId}": {
+      "schema": "Setting",
+      "description": "Store-wide configuration"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Log of orders placed (optional management)"
+    }
+  }
+}

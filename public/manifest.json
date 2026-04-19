@@ -1,0 +1,21 @@
+{
+  "name": "Minka - Artisanal Home & Lifestyle",
+  "short_name": "Minka",
+  "description": "Premium WhatsApp-driven boutique featuring artisanal home goods.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F0",
+  "theme_color": "#5A5A40",
+  "icons": [
+    {
+      "src": "https://picsum.photos/seed/minka192/192/192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://picsum.photos/seed/minka512/512/512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Catch-all deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Products
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidId(productId);
+      
+      // Validation blueprint (simplified for this turn)
+      function isValidProduct(data) {
+        return data.name is string && data.name.size() > 0 && data.name.size() < 200 &&
+               data.price is number && data.price >= 0;
+      }
+      
+      allow create: if isAdmin() && isValidProduct(request.resource.data);
+      allow update: if isAdmin() && isValidProduct(request.resource.data);
+    }
+
+    // Settings
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Orders
+    match /orders/{orderId} {
+      allow create: if true; // Customers can place orders
+      allow read, delete, update: if isAdmin();
+    }
+
+    // Admin collection
+    match /admins/{adminId} {
+      // Allow user to get their own admin status
+      allow get: if isSignedIn() && request.auth.uid == adminId;
+      // Allow only the owner email to bootstrap their admin record
+      allow create: if isSignedIn() && request.auth.uid == adminId && 
+                      request.auth.token.email == "demunaj2@gmail.com" &&
+                      request.auth.token.email_verified == true;
+    }
+  }
+}
